@@ -1,0 +1,6 @@
+Command: my-tweets, Search string: 
+Command: spotify-this-song, Search string: 
+Command: spotify-this-song, Search string: Life During Wartime
+Command: movie-this, Search string: 
+Command: movie-this, Search string: Four+Lions
+Command: do-what-it-says, Search string: 

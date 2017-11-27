@@ -39,6 +39,7 @@ function doCommands(command, string) {
 }
 
 doCommands(command, searchString);
+logCommand(command, searchString);
 
 // displays tweets and timestamps
 function myTweets() {
@@ -94,9 +95,7 @@ function spotifyThisSong(string) {
 
 // displays movie information
 function movieThis(string) {
-	if (string === "") {
-		string = "Dr. Strangelove";
-	}
+	if (string === "") { string = "Dr. Strangelove"; };
 	// OMDB API URL variable
 	var queryUrl = "http://www.omdbapi.com/?t=" + string + "&y=&plot=short&apikey=trilogy";
 	// makes request to OMDB API
@@ -124,5 +123,14 @@ function doWhatItSays() {
 			var fileString = textArr[1];
 			fileString = fileString.slice(0, -1);
 			doCommands(textArr[0], fileString);
+		});
+}
+
+// creates a logfile of commands run
+function logCommand(command, string) {
+	fs.appendFile("log.txt", `Command: ${command}, Search string: ${string}\n`, function(err) {
+			if (err) {
+				return console.log(err);
+			}
 		});
 }
