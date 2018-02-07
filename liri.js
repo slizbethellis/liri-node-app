@@ -1,10 +1,10 @@
-var fs = require("fs");
+var fs = require('fs');
 var moment = require('moment');
-var request = require("request");
+var request = require('request');
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 // keys for both Twitter and Spotify
-var keys = require("./keys.js");
+var keys = require('./keys.js');
 
 var userInput = process.argv;
 var command = userInput[2];
@@ -34,7 +34,7 @@ function doCommands(command, string) {
 			doWhatItSays();
 			break;
 		default:
-			console.log("That is not a valid command.");
+			console.log(`That is not a valid command.`);
 	};
 }
 
@@ -52,12 +52,11 @@ function myTweets() {
 	var params = {screen_name: 'imaginarysee', count: 20};
 	twitterKeys.get('statuses/user_timeline', params, function(error, tweets, response) {
 	  if (!error) {
-	  	console.log("Tweets from " + params.screen_name);
-	  	console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+	  	console.log(`Tweets from ${params.screen_name}\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n`);
 	  	for (var i = 0; i < tweets.length; i++) {
-	  		console.log("Time Tweeted: " + moment(tweets[i].created_at).utc(-6).format("DD MMMM YYYY, h:mma"));
-	  		console.log("    " + tweets[i].text);
-	  		console.log("----------------------------------\n");
+	  		console.log(`Time Tweeted: ${moment(tweets[i].created_at).utc(-6).format("DD MMMM YYYY, h:mma")}`);
+	  		console.log(`    ${tweets[i].text}`);
+	  		console.log(`----------------------------------\n`);
 	  	}
 	  }
 	});
@@ -65,14 +64,14 @@ function myTweets() {
 
 // displays song information
 function spotifyThisSong(string) {
-	if (string === "") { string = "Nythod Cacwn"; };
+	if (string === "") { string = "Nythod Cacwn"; }
 	var spotify = new Spotify({
 	  id: keys.spotify.id,
 	  secret: keys.spotify.secret
 	});
 	spotify.search({ type: 'track', query: string, limit: 1 }, function(err, data) {
 	  if (err) {
-	    return console.log('Error occurred: ' + err);
+	    return console.log(`Error occurred: ${err}`);
 	  }
 	  var song = data.tracks.items[0];
 	  var artistObject = song.artists;
@@ -86,29 +85,29 @@ function spotifyThisSong(string) {
 				artists += ", ";
 			}
 	  }
-		console.log("Artist(s): " + artists);
-		console.log("Song: " + song.name);
-		console.log("Preview link: " + song.preview_url);
-		console.log("Album: " + song.album.name);
+		console.log(`Artist(s): ${artists}`);
+		console.log(`Song: ${song.name}`);
+		console.log(`Preview link: ${song.preview_url}`);
+		console.log(`Album: ${song.album.name}`);
 	});
 }
 
 // displays movie information
 function movieThis(string) {
-	if (string === "") { string = "Dr. Strangelove"; };
+	if (string === "") { string = "Dr. Strangelove"; }
 	// OMDB API URL variable
-	var queryUrl = "http://www.omdbapi.com/?t=" + string + "&y=&plot=short&apikey=trilogy";
+	var queryUrl = `http://www.omdbapi.com/?t=${string}&y=&plot=short&apikey=trilogy`;
 	// makes request to OMDB API
 	request(queryUrl, function(error, response, body) {
 		if (!error && response.statusCode === 200) {
-	    console.log("~~~~" + JSON.parse(body).Title + "~~~~");
-	    console.log("Released: " + JSON.parse(body).Released);
-	    console.log("IMDB Rating: " + JSON.parse(body).Ratings[0].Value);
-	    console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
-	    console.log("Country: " + JSON.parse(body).Country);
-	    console.log("Language: " + JSON.parse(body).Language);
-	    console.log("Plot: " + JSON.parse(body).Plot);
-	    console.log("Actors: " + JSON.parse(body).Actors);
+	    console.log(`${JSON.parse(body).Title}\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`);
+	    console.log(`Released: ${JSON.parse(body).Released}`);
+	    console.log(`IMDB Rating: ${JSON.parse(body).Ratings[0].Value}`);
+	    console.log(`Rotten Tomatoes Rating: ${JSON.parse(body).Ratings[1].Value}`);
+	    console.log(`Country: ${JSON.parse(body).Country}`);
+	    console.log(`Language: ${JSON.parse(body).Language}`);
+	    console.log(`Plot: ${JSON.parse(body).Plot}`);
+	    console.log(`Actors: ${JSON.parse(body).Actors}`);
 	  }
 });
 }
@@ -116,21 +115,21 @@ function movieThis(string) {
 // runs command based on contexts of random.txt
 function doWhatItSays() {
 	fs.readFile("random.txt", "utf-8" , function(err,data) {
-			if (err) {
-				return console.log(err);
-			}
-			var textArr = data.split(',"');
-			var fileString = textArr[1];
-			fileString = fileString.slice(0, -1);
-			doCommands(textArr[0], fileString);
-		});
+		if (err) {
+			return console.log(err);
+		}
+		var textArr = data.split(',"');
+		var fileString = textArr[1];
+		fileString = fileString.slice(0, -1);
+		doCommands(textArr[0], fileString);
+	});
 }
 
 // creates a logfile of commands run
 function logCommand(command, string) {
 	fs.appendFile("log.txt", `Command: ${command}, Search string: ${string}\n`, function(err) {
-			if (err) {
-				return console.log(err);
-			}
-		});
+		if (err) {
+			return console.log(err);
+		}
+	});
 }
