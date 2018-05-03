@@ -54,7 +54,7 @@ function myTweets() {
 	  if (!error) {
 	  	console.log(`Tweets from ${params.screen_name}\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n`);
 	  	for (var i = 0; i < tweets.length; i++) {
-	  		console.log(`Time Tweeted: ${moment(tweets[i].created_at).utc(-6).format("DD MMMM YYYY, h:mma")}`);
+	  		console.log(`Time Tweeted: ${moment(tweets[i].created_at, "ddd MMM DD HH:mm:ss Z YYYY").utc(-6).format("DD MMMM YYYY, h:mma")}`);
 	  		console.log(`    ${tweets[i].text}`);
 	  		console.log(`----------------------------------\n`);
 	  	}

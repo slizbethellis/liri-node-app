@@ -10,3 +10,8 @@ Command: spotify-this-song, Search string: Salvaging
 Command: movie-this, Search string: 
 Command: movie-this, Search string: This+Is+Spinal+Tap
 Command: do-what-it-says, Search string: 
+Command: my-tweets, Search string: 
+Command: my-tweets, Search string: 
+Command: my-tweets, Search string: 
+Command: my-tweets, Search string: 
+Command: my-tweets, Search string: 
